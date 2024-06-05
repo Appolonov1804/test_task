@@ -23,7 +23,7 @@ class UpdateCommentRequest extends FormRequest
     {
         return [
             'comment' => 'string',
-            'users_id' => ['nullable', 'integer'],
+            'user_id' => ['nullable', 'integer'],
             'post_id' => ['nullable', 'integer']
         ];
     }

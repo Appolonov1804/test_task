@@ -6,8 +6,8 @@
         <input type="submit" name="_token" value="{{ scrf_token() }}">
             @method('patch')
             <div class="form-group">
-                <label for="text">Комментарий</label>
-                <textarea class="form-control" id="text" name="text" placeholder="Введите комментарий">{{ $comment->text }}</textarea>
+                <label for="inputText">Комментарий</label>
+                <textarea class="form-control" id="inputText" name="comment" placeholder="Введите комментарий">{{ $comment->comment }}</textarea>
             </div>
             <button type="submit" class="btn btn-primary">Схранить изменения</button>
         </form>

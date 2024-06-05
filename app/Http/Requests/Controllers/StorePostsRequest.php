@@ -24,7 +24,8 @@ class StorePostsRequest extends FormRequest
         return [
             'title' => 'string',
             'text' => 'string',
-            'users_id' => ['nullable', 'integer']
+            'user_id' => ['nullable', 'integer'],
+            'category_id' => ['nullable', 'integer']
         ];
     }
 }

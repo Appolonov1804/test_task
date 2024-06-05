@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('content') 
         <h1>Добавить пост</h1>
-        <form action="{{ route('posts.store', $post) }}" method="post">
+        <form action="{{ route('posts.store') }}" method="post">
             @csrf
             <div class="form-group">
                 <label for="inputText">Заголовок</label>

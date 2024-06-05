@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\User;
 use App\Http\Requests\Controllers\StorePostsRequest;
 use App\Http\Requests\Controllers\UpdatePostsRequest;
 use Illuminate\Support\Facades\Auth;
@@ -18,19 +19,29 @@ class PostsController extends Controller
         return view('posts.create', compact('posts'));
     } 
 
-    public function store(StorePostsRequest $request) 
+    public function store(StorePostsRequest $request, Post $post) 
     {
+        $posts = Post::all();
         $data = $request->validated();
 
         $user = Auth::user();
 
+        $post = $user->posts()->create($data);
+
+        redirect()->route('posts.show', ['post' => $post->id]);
     }
 
-    public function show() 
+    public function main() 
     {
         $posts = Post::all();
 
-        return view('posts.show', compact('posts'));
+        return view('posts.main', compact('posts'));
+    }
+
+    public function show(Post $post) 
+    {
+
+        return view('posts.show', compact('post'));
     }
 
     public function edit(Post $post)
@@ -69,7 +80,7 @@ class PostsController extends Controller
     {
         $this->authorize('delete', $post);
         $post->delete();
-        $users_id = $post->users_id;
+        $users_id = $post->user_id;
 
         return redirect()->route('post.show');
     }

@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('category_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('category_id')->nullable();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     
@@ -24,7 +24,7 @@ return new class extends Migration
     
         Schema::table('comments', function (Blueprint $table) {
             $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
-            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -35,7 +35,7 @@ return new class extends Migration
     {
         Schema::table('comments', function (Blueprint $table) {
             $table->dropForeign(['post_id']);
-            $table->dropForeign(['users_id']);
+            $table->dropForeign(['user_id']);
         });
 
         Schema::table('categories', function (Blueprint $table) {
@@ -44,8 +44,8 @@ return new class extends Migration
         });
 
         Schema::table('posts', function (Blueprint $table) {
-            $table->dropForeign(['users_id']);
-            $table->dropForeign(['category_id']);
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['category_id'])->nullable();
             $table->dropColumn('category_id');
         });
     }   

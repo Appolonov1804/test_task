@@ -12,27 +12,26 @@ use App\Http\Requests\Controllers\UpdateCommentRequest;
 class CommentController extends Controller
 {
 
-    public function create()
+    public function create(Post $post)
     {
         $comments = Comment::all();
 
-        return view('comments.create');
+        return view('comments.create', compact('post'));
     }
 
    
-    public function store(StoreCommentRequest $request, Post $post)
+    public function store(StoreCommentRequest $request, Post $post, Comment $comment)
     {
         $data = $request->validated();
 
         $user = Auth::user();
 
-        $comment = new Comment;
-        $comment->text = $data['text'];
-        $comment->users_id = $user->id;
-        $comment->post->id = $post->id;
-        $comment->save();
-
-        return redirect()->route('posts.show', $post->id);
+        $comment = Comment::create([
+            'post_id' => $post->id,
+            'user_id' => $user->id, 
+            'comment' => $data['comment'],
+        ]);
+        return redirect()->route('posts.show', ['post' => $post->id]);
 
     }
 
@@ -75,7 +74,7 @@ class CommentController extends Controller
     {
         $this->authorize('delete', $comment);
         $comment->delete();
-        $Users_id = $comment->users_id;
+        $Users_id = $comment->user_id;
 
         return redirect()->route('posts.show');
     }

@@ -13,7 +13,7 @@ class Post extends Model
 
     protected $table = 'posts';
     protected $guarded = [];
-    protected $fillable = ['title', 'text', 'users_id'];
+    protected $fillable = ['title', 'text', 'user_id', 'category_id'];
 
     public function users() 
     {
