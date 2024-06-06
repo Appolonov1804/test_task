@@ -38,7 +38,7 @@ class CommentController extends Controller
     
     public function edit(Comment $comment)
     {
-        $this->authorize('edit', $comment);
+        $this->authorize('update', $comment);
         $comments = Comment::all();
 
         return view('comments.edit', compact('comment', 'comments'));
@@ -46,7 +46,7 @@ class CommentController extends Controller
     }
 
    
-    public function update(UpdateCommentRequest $request, Comment $comment)
+    public function update(UpdateCommentRequest $request, Comment $comment, Post $post)
     {
         $this->authorize('update', $comment);
         $comments = Comment::all();
@@ -55,7 +55,7 @@ class CommentController extends Controller
 
         $comment->update($data);
         
-        return redirect()->route('posts.show');
+        return redirect()->route('posts.show', ['post' => $comment->post_id]);
     }
 
     public function delete($commentId) 
@@ -76,6 +76,6 @@ class CommentController extends Controller
         $comment->delete();
         $Users_id = $comment->user_id;
 
-        return redirect()->route('posts.show');
+        return redirect()->route('posts.show', ['post' => $comment->post_id]);
     }
 }

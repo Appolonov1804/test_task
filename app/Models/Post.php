@@ -15,9 +15,9 @@ class Post extends Model
     protected $guarded = [];
     protected $fillable = ['title', 'text', 'user_id', 'category_id'];
 
-    public function users() 
+    public function user() 
     {
-        return $this->belongsTo(User::class, 'users_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
     
     public function comments() 

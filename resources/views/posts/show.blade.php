@@ -41,4 +41,5 @@
             <p>Комментариев пока нет.</p>
         @endif
     </div>
+    
 @endsection

@@ -31,8 +31,8 @@ class PostsController extends Controller
         redirect()->route('posts.show', ['post' => $post->id]);
     }
 
-    public function main() 
-    {
+    public function main(Post $post) 
+    {   
         $posts = Post::all();
 
         return view('posts.main', compact('posts'));
@@ -40,13 +40,13 @@ class PostsController extends Controller
 
     public function show(Post $post) 
     {
-
+        $this->authorize('view', $post);
         return view('posts.show', compact('post'));
     }
 
     public function edit(Post $post)
     {
-        $this->authorize('edit', $post);
+        $this->authorize('update', $post);
         $posts = Post::all();
 
         return view('posts.edit', compact('post', 'posts'));
@@ -61,7 +61,7 @@ class PostsController extends Controller
 
         $post->update($data);
 
-        return redirect()->route('posts.show');
+        return redirect()->route('posts.show', ['post' => $post->id]);
     } 
 
     public function delete($postId) 
@@ -76,13 +76,13 @@ class PostsController extends Controller
         }
     }
 
-    public function destroy(Post $post)  
+    public function destroy(Post $post, $postId)  
     {
         $this->authorize('delete', $post);
         $post->delete();
         $users_id = $post->user_id;
 
-        return redirect()->route('post.show');
+        return redirect()->route('posts.show', ['post' => $postId]);
     }
 
 
